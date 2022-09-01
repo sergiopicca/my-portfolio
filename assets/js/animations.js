@@ -6,22 +6,27 @@ window.onload = () => {
     // Animazione titoli sezioni
     gsap.utils.toArray('.sectionTitle').forEach((title) => {
         const [span] = [title.getElementsByTagName('span')]
+        const parent = title.parentElement
 
         const tTitle = gsap.timeline({
             scrollTrigger: {
-                trigger: title,
-                start: 'center center',
-                end: 'center center',
-                once: false,
+                trigger: parent,
+                start: 'top-=100px top',
+                end: '+=75px',
+                once: true,
                 scrub: .5,
-                markers: showMarkers
+                markers: false
             }
         });
 
         tTitle.fromTo(span, {
-            transform: 'translate(0,100%)'
+            css: {
+                transform: 'translate(0,100%)'
+            }
         }, {
-            transform: 'translate(0, 0)',
+            css: {
+                transform: 'translate(0, 0)'
+            },
             opacity: 1,
             duration: 1
         })
@@ -32,47 +37,46 @@ window.onload = () => {
     const tlIntro = gsap.timeline({
         scrollTrigger: {
             trigger: '#whoiam',
-            pin: true,
+            pin: '#whoiam',
+            pinSpacing: true,
             start: "top top",
-            end: '+=5000',
-            pinSpacing: false,
-            scrub: 0,
-            markers: showMarkers
+            end: '+=500px 10%',
+            scrub: true,
+            markers: false
         },
-        defaults: {
-            ease: new SlowMo(0.5, 0.8),
-            duration: 4
-        }
     })
-    tlIntro.to('#whoiam', {
-        scale: 8,
-        yPercent: -500,
-        opacity: 0,
-    }, .15).to('#whoiam', {
-        scale: 1
-    })
+    const [l1, l2] = [...document.getElementsByClassName('lxLine')]
+    const [r1, r2] = [...document.getElementsByClassName('rxLine')]
+    tlIntro.add('init')
+    tlIntro.to('.hello', {yPercent: -50, opacity: 0}, 'init')
+    tlIntro.fromTo([l1, r1], {scaleX: 1.005}, {scaleX: 0, duration: .5}, 'init')
+    tlIntro.fromTo([l2,r2], {scaleY: 1.005}, {scaleY: 0, duration: .5}, 'init')
+    tlIntro.to('.titleContainer', {xPercent: -100, opacity: 0})
+    tlIntro.add('fade')
+    tlIntro.to('.role', {yPercent: 50, opacity: 0}, 'fade')
+    tlIntro.to('.introDescription', {yPercent: -50, opacity: 0}, 'fade+=0.5%')
+    tlIntro.to('.imgContainer', { opacity: 0}, 'fade')
+
 
     // CAREER
     // Animazione Career section timeline
     const tl = gsap.timeline({
         scrollTrigger: {
             trigger: '#career',
-            start: 'top top',
-            end: '+=1000',
-            once: false,
-            pin: '#career',
-            pinSpacing: true,
+            start: 'top-=400px top',
+            end: '+=400px',
+            once: true,
             scrub: true,
-            markers: showMarkers
+            markers: false
         }
     });
     const dotTweenStart = {scale: 0}
-    const dotTweenEnd = {scale: 1.1, duration: 2}
+    const dotTweenEnd = {scale: 1.1, duration: 1}
     tl.fromTo('#timeline-line', {
         scaleY: 0,
-        css: {transformOrigin: '0 0'}
     }, {
-        scaleY: 1 / 3
+        scaleY: 1.025,
+        duration: 2.5
     })
 
     gsap.utils.toArray(".careerStep").forEach((careerStep, i) => {
@@ -87,23 +91,23 @@ window.onload = () => {
         }
 
         let currentTimeline = null
-        let start = 'center center'
+        let start = 'top+=300px top'
+        let end = '+=300px'
+
         if (i === 2) {
-            start = 'center+=500 center'
+            start = 'top+=700px top'
+            end = '+=400px'
         }
         currentTimeline = gsap.timeline({
             scrollTrigger: {
                 trigger: '#career',
                 start: start,
-                end: 'bottom+=1000 bottom',
-                pin: '#career',
-                pinSpacing: true,
-                once: false,
+                end: end,
+                once: true,
                 scrub: true,
-                markers: showMarkers
+                markers: false
             }
         });
-        currentTimeline.to('#timeline-line', { scaleY: (i + 1) / 3})
         currentTimeline.fromTo(dot, dotTweenStart, dotTweenEnd)
         currentTimeline.fromTo([time, infoContainer], timeInfoTweenStart, timeInfoTweenEnd)
     })
@@ -114,65 +118,55 @@ window.onload = () => {
         scrollTrigger: {
             trigger: '#skills',
             start: 'top top',
-            end: 'bottom+=1000 bottom',
-            pin: '#skills',
-            pinSpacing: true,
-            once: false,
+            end: '+=400px 50%',
+            once: true,
             scrub: true,
-            markers: showMarkers
+            markers: false
         }
     });
+
+    gsap.utils.toArray('.value').forEach((v, i) => {
+        if(i === 0) {
+            tSkills.fromTo(v, {
+                scaleY: 0
+            }, {
+                scaleY: 1.005,
+                duration: 1
+            })
+        } else {
+            tSkills.fromTo(v, {
+                scaleY: 0
+            }, {
+                scaleY: 1.005,
+                duration: 1
+            }, i / 5)
+        }
+    })
+
+    tSkills.fromTo('.techKnowledgeDescription', {
+        opacity: 0,
+        xPercent: -5
+    }, {
+        xPercent: 0,
+        opacity: 1,
+        duration: 3
+    })
 
     const tSkillsSoft = gsap.timeline({
         scrollTrigger: {
             trigger: '#skills',
             start: 'center center',
-            end: 'bottom+=1000 bottom',
-            pin: '#skills',
-            pinSpacing: true,
-            once: false,
+            end: '+=300px 50%',
+            once: true,
             scrub: true,
-            markers: showMarkers
+            markers: false
         }
     });
-
-    const tSkillsTable = gsap.timeline({
-        scrollTrigger: {
-            trigger: '#skills',
-            start: 'center center',
-            end: 'bottom+=1000 bottom',
-            pin: '#skills',
-            pinSpacing: true,
-            once: false,
-            scrub: true,
-            markers: showMarkers
-        }
-    });
-
-    tSkills.fromTo('.techKnowledgeDescription', {
-        opacity: 0,
-        xPercent: -50
-    }, {
-        xPercent: 0,
-        opacity: 1
-    })
-
-    gsap.utils.toArray('.value').forEach((v, i) => {
-        tSkills.fromTo(v, {
-            scaleY: 0,
-            css: {
-                transformOrigin: '0 100%'
-            }
-        }, {
-            scaleY: 1.005,
-            duration: 1
-        })
-    })
 
     tSkillsSoft.fromTo('.radarChart', {
         css: {
             transformOrigin: '50% 50%',
-            transform: 'scale(0) rotate(270deg)'
+            transform: 'scale(0) rotate(-270deg)'
         }
     }, {
         css: {
@@ -182,10 +176,89 @@ window.onload = () => {
 
     tSkillsSoft.fromTo('.softSkillsDescription', {
         opacity: 0,
-        xPercent: 50
+        xPercent: 5
     }, {
         opacity: 1,
-        xPercent: 0
+        xPercent: 0,
+        duration: 1
     })
 
+    const tSkillsTable = gsap.timeline({
+        scrollTrigger: {
+            trigger: '#skills',
+            start: 'center center',
+            end: '+=1000px center',
+            once: true,
+            scrub: true,
+            markers: false
+        }
+    });
+
+    tSkillsTable.fromTo('.langTableSection', {
+        opacity: 0,
+        xPercent: -5
+    }, {
+        opacity: 1,
+        xPercent: 0,
+        duration: 1
+    })
+
+    // PAPER SECTION
+    const tPaper = gsap.timeline({
+        scrollTrigger: {
+            trigger: '#publications',
+            start: 'top top',
+            end: '+=400px 50%',
+            once: true,
+            scrub: true,
+            markers: false
+        }
+    });
+
+    tPaper.fromTo('.paperTitle', {opacity: 0}, {opacity: 1})
+    tPaper.fromTo('.authors', {opacity: 0}, {opacity: 1, duration: 1})
+    tPaper.fromTo('.previews', {opacity: 0}, {opacity: 1, duration: 1})
+    gsap.utils.toArray('.content').forEach((v, i) => {
+        const delay = i === 0 ? 0 : i
+        tPaper.fromTo(v, {opacity: 0}, {opacity: 1}, delay)
+    })
+    gsap.utils.toArray('.paperLink').forEach((v, i) => {
+        const currentT = gsap.timeline({
+            scrollTrigger: {
+                trigger: '#publications',
+                start: '80% 50%',
+                end: '+=400px 50%',
+                once: true,
+                scrub: true,
+                markers: false
+            }
+        });
+        if (i === 0) {
+            currentT.fromTo(v, {xPercent: 5, opacity: 0}, {xPercent: 0, opacity: 1, duration: 1.5})
+        } else {
+            currentT.fromTo(v, {xPercent: 5, opacity: 0}, {xPercent: 0, opacity: 1, duration: 1.5}, i / 5)
+        }
+    })
+
+    // HONOURS
+    // TODO : animazioni honours
+
+    // EDUCATION
+    const tEdu = gsap.timeline({
+        scrollTrigger: {
+            trigger: '#education',
+            start: 'top top',
+            end: '+=200px 50%',
+            once: true,
+            scrub: true,
+            markers: false
+        }
+    });
+    gsap.utils.toArray('.educationCard').forEach((v, i) => {
+        if (i === 0) {
+            tEdu.fromTo(v, {yPercent: 4, opacity: 0}, {yPercent: 0, opacity: 1})
+        } else {
+            tEdu.fromTo(v, {yPercent: (4 + i/2), opacity: 0}, {yPercent: 0, opacity: 1, duration: 1.5}, i / 5)
+        }
+    })
 }
