@@ -2,7 +2,7 @@ gsap.registerPlugin(ScrollTrigger)
 
 const showMarkers = false
 
-window.onload = () => {
+const init = () => {
     // Animazione titoli sezioni
     gsap.utils.toArray('.sectionTitle').forEach((title) => {
         const [span] = [title.getElementsByTagName('span')]
@@ -34,28 +34,46 @@ window.onload = () => {
 
     // INTRO
     // Animazione zoom-in della sezione intro
+    const [l1, l2] = [...document.getElementsByClassName('lxLine')]
+    const [r1, r2] = [...document.getElementsByClassName('rxLine')]
+    const staticTl = gsap.timeline({
+        defaults: {
+            duration: 1.5,
+            ease: "linear",
+        },
+        //onStart: () => (document.body.style.overflow = 'hidden'),
+        //onComplete: () => (document.body.style.overflow = 'auto')
+    })
+    staticTl.add('lines')
+        .fromTo([l1, r1], {scaleX: 0}, {autoAlpha: 1, scaleX: 1, duration: .25}, 'lines')
+        .fromTo([l2, r2], {scaleY: .0}, {autoAlpha: 1, scaleY: 1, duration: .25}, 'lines')
+        .add('start')
+        .to('.introImg', {autoAlpha: 1}, 'start+=.5s')
+        .fromTo('.titleContainer', {xPercent: -100}, {xPercent: 0, autoAlpha: 1}, 'start+=1s')
+        .fromTo('.hello', {yPercent: -50}, {yPercent: 0, autoAlpha: 1}, 'start+=1s')
+        .fromTo('.role', {yPercent: 100}, {yPercent: 0, autoAlpha: 1}, 'start+=1.5s')
+        .fromTo('.introDescription', {yPercent: -100}, {yPercent: 0, autoAlpha: 1},'start+=1.75s')
+
     const tlIntro = gsap.timeline({
         scrollTrigger: {
             trigger: '#whoiam',
             pin: '#whoiam',
-            pinSpacing: true,
+            pinSpacing: 'margin',
             start: "top top",
-            end: '+=500px 10%',
-            scrub: true,
+            end: '+=600px 25%',
+            scrub: 1.5,
             markers: false
         },
     })
-    const [l1, l2] = [...document.getElementsByClassName('lxLine')]
-    const [r1, r2] = [...document.getElementsByClassName('rxLine')]
+    tlIntro.fromTo('.titleContainer', {xPercent: 0, opacity: 1}, {xPercent: -100, opacity: 0})
     tlIntro.add('init')
-    tlIntro.to('.hello', {yPercent: -50, opacity: 0}, 'init')
+    tlIntro.fromTo('.hello', {yPercent: 0, opacity: 1}, {yPercent: -50, opacity: 0}, 'init')
     tlIntro.fromTo([l1, r1], {scaleX: 1.005}, {scaleX: 0, duration: .5}, 'init')
-    tlIntro.fromTo([l2,r2], {scaleY: 1.005}, {scaleY: 0, duration: .5}, 'init')
-    tlIntro.to('.titleContainer', {xPercent: -100, opacity: 0})
+    tlIntro.fromTo([l2, r2], {scaleY: 1.005}, {scaleY: 0, duration: .5}, 'init')
     tlIntro.add('fade')
-    tlIntro.to('.role', {yPercent: 50, opacity: 0}, 'fade')
-    tlIntro.to('.introDescription', {yPercent: -50, opacity: 0}, 'fade+=0.5%')
-    tlIntro.to('.imgContainer', { opacity: 0}, 'fade')
+    tlIntro.fromTo('.role', {yPercent: 1, opacity: 1}, {yPercent: 80, opacity: 0}, 'fade')
+    tlIntro.fromTo('.introDescription', {yPercent: 0, opacity: 1}, {yPercent: -80, opacity: 0}, 'fade+=0.25%')
+    tlIntro.fromTo('.imgContainer', {opacity: 1}, {opacity: 0}, 'fade')
 
 
     // CAREER
@@ -126,7 +144,7 @@ window.onload = () => {
     });
 
     gsap.utils.toArray('.value').forEach((v, i) => {
-        if(i === 0) {
+        if (i === 0) {
             tSkills.fromTo(v, {
                 scaleY: 0
             }, {
@@ -258,7 +276,9 @@ window.onload = () => {
         if (i === 0) {
             tEdu.fromTo(v, {yPercent: 4, opacity: 0}, {yPercent: 0, opacity: 1})
         } else {
-            tEdu.fromTo(v, {yPercent: (4 + i/2), opacity: 0}, {yPercent: 0, opacity: 1, duration: 1.5}, i / 5)
+            tEdu.fromTo(v, {yPercent: (4 + i / 2), opacity: 0}, {yPercent: 0, opacity: 1, duration: 1.5}, i / 5)
         }
     })
 }
+
+window.addEventListener('load', init)
