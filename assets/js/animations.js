@@ -15,8 +15,7 @@ const init = () => {
                 end: '+=75px',
                 once: true,
                 scrub: .5,
-                markers: false,
-                invalidateOnRefresh: true
+                markers: false
             }
         });
 
@@ -63,8 +62,7 @@ const init = () => {
             start: "top top",
             end: '+=600px 25%',
             scrub: 1.5,
-            markers: false,
-            invalidateOnRefresh: true
+            markers: false
         },
     })
     tlIntro.fromTo('.titleContainer', {xPercent: 0, opacity: 1}, {xPercent: -100, opacity: 0})
@@ -87,8 +85,7 @@ const init = () => {
             end: '+=400px',
             once: true,
             scrub: true,
-            markers: false,
-            invalidateOnRefresh: true
+            markers: false
         }
     });
     const dotTweenStart = {scale: 0}
@@ -126,8 +123,7 @@ const init = () => {
                 end: end,
                 once: true,
                 scrub: true,
-                markers: false,
-                invalidateOnRefresh: true
+                markers: false
             }
         });
         currentTimeline.fromTo(dot, dotTweenStart, dotTweenEnd)
@@ -143,8 +139,7 @@ const init = () => {
             end: '+=400px 50%',
             once: true,
             scrub: true,
-            markers: false,
-            invalidateOnRefresh: true
+            markers: false
         }
     });
 
@@ -182,8 +177,7 @@ const init = () => {
             end: '+=300px 50%',
             once: true,
             scrub: true,
-            markers: false,
-            invalidateOnRefresh: true
+            markers: false
         }
     });
 
@@ -214,8 +208,7 @@ const init = () => {
             end: '+=1000px center',
             once: true,
             scrub: true,
-            markers: false,
-            invalidateOnRefresh: true
+            markers: false
         }
     });
 
@@ -236,8 +229,7 @@ const init = () => {
             end: '+=400px 50%',
             once: true,
             scrub: true,
-            markers: false,
-            invalidateOnRefresh: true
+            markers: false
         }
     });
 
@@ -256,8 +248,7 @@ const init = () => {
                 end: '+=400px 50%',
                 once: true,
                 scrub: true,
-                markers: false,
-                invalidateOnRefresh: true
+                markers: false
             }
         });
         if (i === 0) {
@@ -278,8 +269,7 @@ const init = () => {
             end: '+=200px 50%',
             once: true,
             scrub: true,
-            markers: false,
-            invalidateOnRefresh: true
+            markers: false
         }
     });
     gsap.utils.toArray('.educationCard').forEach((v, i) => {
@@ -291,4 +281,8 @@ const init = () => {
     })
 }
 
-window.addEventListener('load', init)
+window.addEventListener('load', () => {
+    if(window.innerWidth >= 1200) {
+        init()
+    }
+})
