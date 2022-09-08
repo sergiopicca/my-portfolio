@@ -391,9 +391,11 @@ const init = () => {
         }
     });
     const [imgContainer] = document.getElementsByClassName('hImgContainer')
-    const [img] = imgContainer.getElementsByTagName('span')
+    const [imgWrapper] = document.getElementsByClassName('hImgWrapper')
+    const [img] = imgWrapper.getElementsByTagName('span')
     const lines = imgContainer.getElementsByTagName('div')
     img.style.position = 'relative'
+    imgWrapper.style.overflow = 'hidden'
     tHonours.fromTo(lines, {opacity: 0}, {opacity: 1})
     tHonours.fromTo(img, {css: {top: '500px'}}, {css: {top: '0px'}})
 
