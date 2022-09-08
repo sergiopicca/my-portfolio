@@ -7,7 +7,6 @@ const init = () => {
     gsap.utils.toArray('.sectionTitle').forEach((title) => {
         const [span] = [title.getElementsByTagName('span')]
         const parent = title.parentElement
-        console.log(parent)
 
         const tTitle = gsap.timeline({
             scrollTrigger: {
