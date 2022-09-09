@@ -408,7 +408,7 @@ const init = () => {
     dateWrapper.style.overflow = 'hidden'
     tHonours.fromTo(title, {yPercent: 150}, {yPercent: 0})
     tHonours.fromTo(date, {yPercent: 150}, {yPercent: 0})
-    tHonours.fromTo('.hDesc', {xPercent: 200, opacity: 0}, {xPercent: 0, opacity: 1})
+    tHonours.fromTo(['.hDesc', '.hLink'], {xPercent: 200, opacity: 0}, {xPercent: 0, opacity: 1})
 
     // EDUCATION
     const tEdu = gsap.timeline({
