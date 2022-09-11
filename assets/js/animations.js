@@ -222,10 +222,9 @@ const init = () => {
     const [poligonoAreaContainer] = document.getElementsByClassName('recharts-radar-polygon')
     const poligonoArea = poligonoAreaContainer.getElementsByClassName('recharts-polygon')
     gsap.utils.toArray(poligonoArea).forEach((p, i) => {
-        const color = '198, 32, 92'
         p.style.transformOrigin = '50% 50%';
-        const fr = {css: {stroke: 'rgba(' + color + ', 0)', fill: 'rgba(' + color + ', 0)'}}
-        const to = {css: {stroke: 'rgba(' + color + ', 1)', fill: 'rgba(' + color + ', 1)'}}
+        const fr = {opacity: 0}
+        const to = {opacity: 1}
         tSkillsSoft.fromTo(p, fr, to, 'polygon')
     })
 
